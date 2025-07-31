@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import { db } from './firebase'
+import { db } from '../firebase'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
-import { entries } from './data/entries'
+import { entries } from '../data/entries'
 
 const pair = ref(getRandomPair())
 
@@ -30,26 +30,15 @@ async function vote(winnerId, loserId) {
 </script>
 
 
-
 <template>
-  <nav class="p-4 space-x-4">
-    <router-link to="/">投票ページ</router-link>
-    <router-link to="/ranking">ランキング</router-link>
-  </nav>
-  <router-view />
+  <h1>大学格付けバトル🔥</h1>
+  <div class="vote-pair">
+    <button @click="vote(pair[0].id, pair[1].id)">
+      {{ pair[0].name }}
+    </button>
+    <span>vs</span>
+    <button @click="vote(pair[1].id, pair[0].id)">
+      {{ pair[1].name }}
+    </button>
+  </div>
 </template>
-
-
-<style scoped>
-.vote-pair {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-button {
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-}
-</style>
