@@ -42,13 +42,16 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="p-4">
-    <h1 class="text-2xl font-bold mb-4">ランキング</h1>
-    <ol class="list-decimal list-inside space-y-2">
-      <li v-for="(item, idx) in rankings" :key="item.id">
-        <span class="font-medium">{{ idx + 1 }}.</span>
-        {{ item.name }}
-        <span class="text-sm text-gray-500">— {{ item.wins }} wins</span>
+  <div class="max-w-xl mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">🏆 大学×学部ランキング</h1>
+    <ol class="space-y-4">
+      <li
+        v-for="(item, idx) in rankings"
+        :key="item.id"
+        class="flex justify-between p-4 bg-white shadow rounded"
+      >
+        <span class="font-medium">{{ idx + 1 }}. {{ item.name }}</span>
+        <span class="text-blue-600 font-bold">{{ item.wins }}票</span>
       </li>
     </ol>
   </div>
