@@ -11,35 +11,33 @@ const router = useRouter()
 const IS_DEV = import.meta.env.DEV
 const PREFIX = 'voted_'
 
-// 表示用ステート
+// 表示状態
 const pair = ref([null, null])
 const loading = ref(true)
 const invalid = ref(false)
 const lastKey = ref(route.params.pairKey || null)
 const copied = ref(false)
 
-// 一意キー生成 (順序依存なし)
+// ペアキーを生成（順序に依存しない一意キー）
 function getPairKey(a, b) {
   const [x, y] = [a, b].sort()
   return `${PREFIX}${x}_${y}`
 }
 
-// パース関数: プレフィックス除去後、IDを分割
+// URLパラメータのペアキーを解析してIDを取得
 function parsePairKey(key) {
   if (!key || !key.startsWith(PREFIX)) return null
   const raw = key.slice(PREFIX.length)
   const segments = raw.split('_')
-  // IDが2つの場合のみ処理
   if (segments.length < 2) return null
-  // 2つに分割: 前半 / 後半
-  const mid = Math.floor(segments.length / 2)
-  const id1 = segments.slice(0, mid).join('_')
-  const id2 = segments.slice(mid).join('_')
+  const half = Math.floor(segments.length / 2)
+  const id1 = segments.slice(0, half).join('_')
+  const id2 = segments.slice(half).join('_')
   return [id1, id2]
 }
 
-// 初期化: URLパラメータからペアを読み込み
-onMounted(() => {
+// 初期化ロジック
+function loadPair() {
   const key = route.params.pairKey
   const ids = parsePairKey(key)
   if (ids) {
@@ -48,13 +46,17 @@ onMounted(() => {
     const e2 = entries.find(e => e.id === id2)
     if (e1 && e2) {
       pair.value = [e1, e2]
+      invalid.value = false
       loading.value = false
       return
     }
   }
-  // 無効キー
   invalid.value = true
   loading.value = false
+}
+
+onMounted(() => {
+  loadPair()
 })
 
 // 投票処理
@@ -75,11 +77,20 @@ async function vote(winner, loser) {
   }
 }
 
-// リンクコピー
+// リンクをコピー
 function copyLink() {
   if (!lastKey.value) return
   navigator.clipboard.writeText(`${window.location.origin}/p/${lastKey.value}`)
   copied.value = true
+}
+
+// 開発用全投票履歴リセット
+function resetVotes() {
+  Object.keys(Cookies.get()).forEach(k => {
+    if (k.startsWith(PREFIX)) Cookies.remove(k)
+  })
+  alert('🍀 テスト用：投票データをリセットしました')
+  window.location.reload()
 }
 </script>
 
@@ -87,12 +98,12 @@ function copyLink() {
   <div class="p-4 max-w-md mx-auto">
     <h1 class="text-2xl font-bold text-center mb-4">共有された対戦カード</h1>
 
-    <!-- ローディング中 -->
+    <!-- 読み込み中 -->
     <div v-if="loading" class="text-center py-8">
       <p>読み込み中...</p>
     </div>
 
-    <!-- 有効なペア表示 -->
+    <!-- 有効なカード表示 -->
     <div v-else-if="!invalid">
       <div class="flex justify-center items-center gap-4 mb-4">
         <div class="flex-1 p-4 bg-blue-100 rounded text-center">{{ pair[0].name }}</div>
@@ -110,17 +121,21 @@ function copyLink() {
         <p v-if="copied" class="mt-2 text-green-600">✔ コピーしました！掲示板に貼ってね</p>
       </div>
 
-      <button v-if="IS_DEV" @click="router.push('/')" class="block mx-auto px-3 py-1 bg-yellow-200 rounded text-sm">🔄 戻る</button>
+      <!-- 開発用機能: 戻る & リセット -->
+      <div v-if="IS_DEV" class="flex justify-center gap-4 mt-4">
+        <button @click="router.push('/')" class="px-3 py-1 bg-yellow-200 rounded text-sm">🔄 戻る</button>
+        <button @click="resetVotes" class="px-3 py-1 bg-yellow-200 rounded text-sm">🍀 リセット</button>
+      </div>
     </div>
 
-    <!-- 無効なキー -->
+    <!-- 無効なカードキー -->
     <div v-else class="text-center py-8">
       <p class="text-red-500">無効なカードキーです</p>
-      <button v-if="IS_DEV" @click="router.push('/')" class="mt-4 px-3 py-1 bg-yellow-200 rounded text-sm">🔄 テスト用戻る</button>
+      <button v-if="IS_DEV" @click="resetVotes" class="mt-4 px-3 py-1 bg-yellow-200 rounded text-sm">🍀 リセット</button>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* カスタマイズ可能 */
+/* カスタマイズ可 */
 </style>
