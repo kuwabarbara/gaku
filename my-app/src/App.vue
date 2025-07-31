@@ -1,55 +1,16 @@
-<script setup>
-import { ref } from 'vue'
-import { db } from './firebase'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
-import { entries } from './data/entries'
-
-const pair = ref(getRandomPair())
-
-function getRandomPair() {
-  const shuffled = [...entries].sort(() => 0.5 - Math.random())
-  return shuffled.slice(0, 2)
-}
-
-async function vote(winnerId, loserId) {
-  // Firestoreに保存
-  try {
-    await addDoc(collection(db, 'votes'), {
-      winnerId,
-      loserId,
-      timestamp: serverTimestamp()
-    })
-    console.log('投票が保存されました')
-  } catch (error) {
-    console.error('投票の保存に失敗:', error)
-  }
-
-  // 次のペアへ
-  pair.value = getRandomPair()
-}
-</script>
-
-
-
+<!-- src/App.vue -->
 <template>
-  <nav class="p-4 space-x-4">
-    <router-link to="/">投票ページ</router-link>
-    <router-link to="/ranking">ランキング</router-link>
+  <nav class="p-4 bg-gray-100 space-x-4">
+    <router-link to="/"        class="text-blue-600 hover:underline">投票ページ</router-link>
+    <router-link to="/ranking" class="text-blue-600 hover:underline">ランキング</router-link>
   </nav>
-  <router-view />
+
+  <!-- ここがないと、どのページも表示されません -->
+  <main class="p-4">
+    <router-view />
+  </main>
 </template>
 
-
-<style scoped>
-.vote-pair {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-button {
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-}
-</style>
+<script setup>
+// nothing needed here
+</script>
