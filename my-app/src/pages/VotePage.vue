@@ -1,3 +1,4 @@
+<!-- src/pages/VotePage.vue -->
 <script setup>
 import { ref, onMounted } from 'vue'
 import Cookies from 'js-cookie'
@@ -8,35 +9,30 @@ import { entries } from '../data/entries'
 const IS_DEV = import.meta.env.DEV
 const PREFIX = 'voted_'
 
-// Reactive state
-const pair      = ref([null, null])       // current displayed pair
-const lastPair  = ref([null, null])       // last voted pair for sharing
-const combos    = ref([])
-const done      = ref(false)
-const lastKey   = ref(null)
-const copied    = ref(false)
+const pair = ref([null, null])
+const lastPair = ref([null, null])
+const combos = ref([])
+const done = ref(false)
+const lastKey = ref(null)
+const copied = ref(false)
 
-// Generate a unique key for a pair (order-independent)
 function getPairKey(a, b) {
   const [x, y] = [a, b].sort()
   return `${PREFIX}${x}_${y}`
 }
 
-// List all possible combinations
 function allPairs() {
   return entries.flatMap((e1, idx) =>
     entries.slice(idx + 1).map(e2 => [e1.id, e2.id])
   )
 }
 
-// Filter out already voted pairs
 function loadCombos() {
   combos.value = allPairs().filter(
     ([a, b]) => !Cookies.get(getPairKey(a, b))
   )
 }
 
-// Display next random pair
 function nextPair() {
   loadCombos()
   if (!combos.value.length) {
@@ -51,12 +47,10 @@ function nextPair() {
   copied.value = false
 }
 
-// Initialize first pair on mount
 onMounted(() => {
   nextPair()
 })
 
-// Voting handler: save vote, set share data, copy link, then advance
 async function vote(winner, loser) {
   const key = getPairKey(winner, loser)
   if (Cookies.get(key)) {
@@ -64,20 +58,15 @@ async function vote(winner, loser) {
     return
   }
   try {
-    // Save vote
     await addDoc(collection(db, 'votes'), {
       winnerId: winner,
-      loserId:  loser,
+      loserId: loser,
       timestamp: serverTimestamp()
     })
-    // Mark as voted
     Cookies.set(key, 'true', { expires: 365 })
-    // Store last pair and key for sharing
     lastPair.value = [...pair.value]
-    lastKey.value  = key
-    // Copy link immediately
+    lastKey.value = key
     copyLink()
-    // Advance to next pair
     nextPair()
   } catch (err) {
     console.error(err)
@@ -85,7 +74,6 @@ async function vote(winner, loser) {
   }
 }
 
-// Copy share link for lastPair
 function copyLink() {
   if (!lastKey.value) return
   const url = `${window.location.origin}/p/${lastKey.value}`
@@ -93,12 +81,11 @@ function copyLink() {
   copied.value = true
 }
 
-// Development reset
 function resetVotes() {
   Object.keys(Cookies.get()).forEach(k => {
     if (k.startsWith(PREFIX)) Cookies.remove(k)
   })
-  done.value  = false
+  done.value = false
   lastKey.value = null
   lastPair.value = [null, null]
   copied.value = false
@@ -108,45 +95,42 @@ function resetVotes() {
 </script>
 
 <template>
-  <div class="p-4 max-w-lg mx-auto">
+  <div class="p-4 max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-center mb-6">大学格付けバトル🔥</h1>
 
-    <!-- Completed all pairs -->
+    <!-- 完了メッセージ -->
     <div v-if="done" class="text-center py-8">
       <p class="text-xl">🎉 全カード投票完了！</p>
       <button
         v-if="IS_DEV"
         @click="resetVotes"
-        class="mt-4 px-4 py-2 bg-yellow-200 rounded"
+        class="mt-4 px-4 py-2 bg-yellow-200 rounded hover:bg-yellow-300"
       >🔄 テスト用リセット</button>
     </div>
 
-    <!-- Voting UI -->
-    <div v-else class="space-y-4">
-      <div class="flex gap-4">
-        <button
-          class="flex-1 px-4 py-3 bg-blue-500 text-white rounded hover:bg-blue-600"
-          @click="vote(pair[0].id, pair[1].id)"
-        >
-          {{ pair[0]?.name }}
-        </button>
-        <span class="self-center font-bold">VS</span>
-        <button
-          class="flex-1 px-4 py-3 bg-red-500 text-white rounded hover:bg-red-600"
-          @click="vote(pair[1].id, pair[0].id)"
-        >
-          {{ pair[1]?.name }}
-        </button>
+    <!-- 投票カード -->
+    <div v-else class="flex flex-col sm:flex-row justify-center items-center gap-8 mt-8">
+      <div
+        v-for="(entry, index) in pair"
+        :key="entry?.id"
+        class="card bg-blue-100 hover:bg-blue-200 cursor-pointer transition duration-300"
+        @click="vote(entry.id, pair[1 - index].id)"
+      >
+        <div class="text-xl font-bold text-gray-800">{{ entry?.name }}</div>
+        <div class="text-sm text-gray-600 mt-2">← タップして投票</div>
       </div>
+    </div>
+
+    <!-- テスト用リセット -->
+    <div v-if="IS_DEV" class="mt-6 text-center">
       <button
-        v-if="IS_DEV"
         @click="resetVotes"
-        class="px-3 py-1 bg-yellow-200 rounded text-sm"
+        class="px-4 py-2 bg-yellow-200 rounded hover:bg-yellow-300"
       >🔄 テスト用リセット</button>
     </div>
 
-    <!-- Share link for last voted pair -->
-    <div v-if="lastKey" class="mt-6 text-center">
+    <!-- シェアリンク -->
+    <div v-if="lastKey" class="mt-8 text-center">
       <p class="mb-2">"{{ lastPair[0]?.name }}" vs "{{ lastPair[1]?.name }}" を匿名でシェア:</p>
       <button
         @click="copyLink"
@@ -160,5 +144,21 @@ function resetVotes() {
 </template>
 
 <style scoped>
-/* Custom styles if needed */
+.card {
+  width: 280px;
+  height: 160px;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1; /* slate-300 */
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+}
 </style>
+
