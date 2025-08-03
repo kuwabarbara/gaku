@@ -1,7 +1,12 @@
-<!-- src/pages/RankingPage.vue -->
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { collection, getDocs, query } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  query,
+  addDoc,
+  serverTimestamp
+} from 'firebase/firestore'
 import { db } from '../firebase'
 import { entries } from '../data/entries'
 
@@ -30,7 +35,7 @@ onMounted(async () => {
   voteSnap.docs.map(d => d.data()).forEach(v => {
     const [wr, lr] = calculateElo(rates[v.winnerId], rates[v.loserId])
     rates[v.winnerId] = wr
-    rates[v.loserId]   = lr
+    rates[v.loserId] = lr
   })
 
   // ソートしてランキング確定
@@ -59,13 +64,14 @@ async function submitComment() {
   if (!newComment.value.trim()) return
   isSubmitting.value = true
   try {
-    await db.collection('comments').add({
+    await addDoc(collection(db, 'comments'), {
       text: newComment.value,
-      createdAt: new Date()
+      createdAt: serverTimestamp()
     })
     comments.value.push({ text: newComment.value })
     newComment.value = ''
-  } catch {
+  } catch (err) {
+    console.error(err)
     alert('コメント送信に失敗しました')
   } finally {
     isSubmitting.value = false
@@ -76,7 +82,6 @@ async function submitComment() {
 <template>
   <div class="max-w-4xl mx-auto p-6">
     <h1 class="text-3xl font-bold mb-6 text-center">🎓 学歴ピラミッド</h1>
-
 
     <!-- 各行ごとに1,2,3…列を設定して中央寄せ -->
     <div class="space-y-6 mb-10">
@@ -101,9 +106,10 @@ async function submitComment() {
       </div>
     </div>
 
-    <br>
-    <br>
-    あくまで主観の、エンタメとして楽しんでください。
+    <p class="text-center mb-6 text-gray-600">
+      あくまで主観の、エンタメとして楽しんでください。
+    </p>
+
     <!-- コメント掲示板 -->
     <h2 class="text-xl font-bold mb-2">💬 コメント掲示板</h2>
     <textarea
@@ -132,10 +138,10 @@ async function submitComment() {
 </template>
 
 <style scoped>
-/* 
-  ・gridTemplateColumns を動的に変えることで必ず改行され、
-    1行目1列、2行目2列、3行目3列…となります。
-  ・justifyContent: center で各行を中央寄せ。
-  ・カード幅8rem固定なので見た目も揃います。
+/*
+  ピラミッド表示:
+  ・gridTemplateColumns を動的に変えることで段ごとの表示数を調整
+  ・justifyContent: center で中央揃え
+  ・各カード幅 8rem 固定、gap 調整で見た目を統一
 */
 </style>
