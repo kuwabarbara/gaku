@@ -1,79 +1,106 @@
 // src/data/entries.js
-/*
-export const entries = [
-  { id: "utokyo_lit", name: "東京大学 文学部" },
-  { id: "keio_law", name: "慶應義塾大学 法学部" },
-  { id: "waseda_comm", name: "早稲田大学 商学部" },
-  { id: "kyoto_sci", name: "京都大学 理学部" }
-];
-*/
-
-// src/data/entries.js
 
 export const entries = [
-{ id: "utokyo\_lit1", name: "東京大学 文科一類" },
-{ id: "utokyo\_lit2", name: "東京大学 文科二類" },
-{ id: "utokyo\_lit3", name: "東京大学 文科三類" },
-{ id: "utokyo\_sci1", name: "東京大学 理科一類" },
-{ id: "utokyo\_sci2", name: "東京大学 理科二類" },
-{ id: "utokyo\_sci3", name: "東京大学 理科三類" },
+  // 国立大学
+  { id: "utokyo", name: "東京大学" },
+  { id: "kyoto", name: "京都大学" },
+  { id: "osaka", name: "大阪大学" },
+  { id: "tohoku", name: "東北大学" },
+  { id: "nagoya", name: "名古屋大学" },
+  { id: "hokkaido", name: "北海道大学" },
+  { id: "tsukuba", name: "筑波大学" },
+  { id: "tokyo_tech", name: "東京工業大学" },
+  { id: "hitotsubashi", name: "一橋大学" },
+  { id: "kobe", name: "神戸大学" },
+  { id: "hiroshima", name: "広島大学" },
+  { id: "chiba", name: "千葉大学" },
+  { id: "yokohama", name: "横浜国立大学" },
+  { id: "kyushu", name: "九州大学" },
+  { id: "okayama", name: "岡山大学" },
+  { id: "kumamoto", name: "熊本大学" },
+  { id: "niigata", name: "新潟大学" },
+  { id: "gifu", name: "岐阜大学" },
+  { id: "fukuoka", name: "福岡大学" },
+  { id: "shizuoka", name: "静岡大学" },
 
-{ id: "kyoto\_lit", name: "京都大学 文学部" },
-{ id: "kyoto\_edu", name: "京都大学 教育学部" },
-{ id: "kyoto\_law", name: "京都大学 法学部" },
-{ id: "kyoto\_econ", name: "京都大学 経済学部" },
-{ id: "kyoto\_sci", name: "京都大学 理学部" },
-{ id: "kyoto\_eng", name: "京都大学 工学部" },
-{ id: "kyoto\_agri", name: "京都大学 農学部" },
+  // 難関私立大学（早慶上理）
+  { id: "keio", name: "慶應義塾大学" },
+  { id: "waseda", name: "早稲田大学" },
+  { id: "sophia", name: "上智大学" },
+  { id: "tokyorikadai", name: "東京理科大学" },
 
-{ id: "osaka\_human", name: "大阪大学 人間科学部" },
-{ id: "osaka\_law", name: "大阪大学 法学部" },
-{ id: "osaka\_econ", name: "大阪大学 経済学部" },
-{ id: "osaka\_sci", name: "大阪大学 理学部" },
-{ id: "osaka\_eng", name: "大阪大学 工学部" },
-{ id: "osaka\_med", name: "大阪大学 医学部 医学科" },
+  // GMARCH
+  { id: "gakushuin", name: "学習院大学" },
+  { id: "meiji", name: "明治大学" },
+  { id: "aoyama", name: "青山学院大学" },
+  { id: "rikkyou", name: "立教大学" },
+  { id: "chuou", name: "中央大学" },
+  { id: "housei", name: "法政大学" },
 
-{ id: "tohoku\_law", name: "東北大学 法学部" },
-{ id: "tohoku\_ed", name: "東北大学 教育学部" },
-{ id: "tohoku\_sci", name: "東北大学 理学部" },
-{ id: "tohoku\_med", name: "東北大学 医学部 医学科" },
-{ id: "tohoku\_dent", name: "東北大学 歯学部" },
+  // 関関同立
+  { id: "kansai", name: "関西大学" },
+  { id: "kinki", name: "近畿大学" },
+  { id: "doshisha", name: "同志社大学" },
+  { id: "ritsumeikan", name: "立命館大学" },
 
-{ id: "nagoya\_law", name: "名古屋大学 法学部" },
-{ id: "nagoya\_econ", name: "名古屋大学 経済学部" },
-{ id: "nagoya\_eng", name: "名古屋大学 工学部" },
-{ id: "nagoya\_med", name: "名古屋大学 医学部 医学科" },
+  // その他有名私立大学
+  { id: "osaka_gakuin", name: "大阪学院大学" },
+  { id: "tokai", name: "東海大学" },
+  { id: "nihon", name: "日本大学" },
+  { id: "senshu", name: "専修大学" },
+  { id: "tamagawa", name: "玉川大学" },
+  { id: "teikyo", name: "帝京大学" },
+  { id: "kanto_gakuin", name: "関東学院大学" },
+  { id: "kunitachi", name: "国立音楽大学" },
+  { id: "shibaura", name: "芝浦工業大学" },
+  { id: "tokyo_denkidai", name: "東京電機大学" },
+  { id: "musashi", name: "武蔵大学" },
+  { id: "tokyo_womens", name: "東京女子大学" },
+  { id: "otsuma", name: "大妻女子大学" },
+  { id: "jissen", name: "実践女子大学" },
+  { id: "showa", name: "昭和女子大学" },
+  { id: "kawasaki_med", name: "川崎医科大学" },
 
-{ id: "hokkaido\_law", name: "北海道大学 法学部" },
-{ id: "hokkaido\_sci", name: "北海道大学 理学部" },
-{ id: "hokkaido\_agri", name: "北海道大学 農学部" },
-{ id: "hokkaido\_med", name: "北海道大学 医学部 医学科" },
+  // 医科・歯科系
+  { id: "nihon_med", name: "日本医科大学" },
+  { id: "tokyo_med", name: "東京医科大学" },
+  { id: "juntendo", name: "順天堂大学" },
+  { id: "showa_med", name: "昭和大学" },
+  { id: "tokyo_dental", name: "東京歯科大学" },
+  { id: "nippon_dental", name: "日本歯科大学" },
+  { id: "kitasato", name: "北里大学" },
 
-{ id: "keio\_law", name: "慶應義塾大学 法学部" },
-{ id: "keio\_comm", name: "慶應義塾大学 商学部" },
-{ id: "keio\_env", name: "慶應義塾大学 環境情報学部" },
-{ id: "keio\_sfc", name: "慶應義塾大学 総合政策学部" },
-{ id: "keio\_med", name: "慶應義塾大学 医学部" },
+  // 芸術系
+  { id: "musashino_art", name: "武蔵野美術大学" },
+  { id: "tokyo_zokei", name: "東京造形大学" },
+  { id: "osaka_art", name: "大阪芸術大学" },
+  { id: "nippon_art", name: "日本大学" },
+  { id: "kyoto_art", name: "京都芸術大学" },
 
-{ id: "waseda\_law", name: "早稲田大学 法学部" },
-{ id: "waseda\_comm", name: "早稲田大学 商学部" },
-{ id: "waseda\_sports", name: "早稲田大学 スポーツ科学部" },
-{ id: "waseda\_int", name: "早稲田大学 国際教養学部" },
+  // 外国語・国際系
+  { id: "tokyo_gaigo", name: "東京外国語大学" },
+  { id: "kanda_gaigo", name: "神田外語大学" },
+  { id: "nagoya_gaigo", name: "名古屋外国語大学" },
 
-{ id: "hitotsubashi\_law", name: "一橋大学 法学部" },
-{ id: "hitotsubashi\_comm", name: "一橋大学 商学部" },
-{ id: "hitotsubashi\_soc", name: "一橋大学 社会学部" },
-{ id: "hitotsubashi\_econ", name: "一橋大学 経済学部" },
+  // 女子大（代表例）
+  { id: "otsuma_women", name: "大妻女子大学" },
+  { id: "tokyo_women_christian", name: "東京女子大学" },
+  { id: "joshigakuin", name: "女子学院大学" },
 
-{ id: "kobe\_law", name: "神戸大学 法学部" },
-{ id: "kobe\_econ", name: "神戸大学 経済学部" },
-{ id: "kobe\_bus", name: "神戸大学 経営学部" },
-{ id: "kobe\_mar", name: "神戸大学 海事科学部" },
+  // 地方有名私大
+  { id: "fukuoka", name: "福岡大学" },
+  { id: "nanzan", name: "南山大学" },
+  { id: "nagoya_city", name: "名古屋市立大学" },
+  { id: "osaka_city", name: "大阪市立大学" },
+  { id: "kyushu_inst_tech", name: "九州工業大学" },
+  { id: "akita_int", name: "国際教養大学" },
 
-{ id: "hiroshima\_eng4", name: "広島大学 工学部 第四類 建築学科" },
-{ id: "hiroshima\_med", name: "広島大学 医学部 医学科" },
-{ id: "chiba\_med", name: "千葉大学 医学部 医学科" },
-{ id: "yokohama\_data", name: "横浜国立大学 データサイエンス学部" },
-{ id: "tsukuba\_info", name: "筑波大学 情報学群" },
-{ id: "tsukuba\_med", name: "筑波大学 医学群 医学類" },
-];
+  // その他（補完用）
+  { id: "yamagata", name: "山形大学" },
+  { id: "ehime", name: "愛媛大学" },
+  { id: "miyazaki", name: "宮崎大学" },
+  { id: "kagoshima", name: "鹿児島大学" },
+  { id: "nagasaki", name: "長崎大学" },
+  { id: "wakayama", name: "和歌山大学" },
+  { id: "miyagi_gakuin", name: "宮城学院女子大学" }
+]
