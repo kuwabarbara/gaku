@@ -97,6 +97,7 @@ function resetVotes() {
 <template>
   <div class="p-4 max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-center mb-6">大学格付けバトル🔥</h1>
+    <h1 class="text-3xl font-bold text-center mb-6">どっちも行けるならどっち行きたい？</h1>
 
     <!-- 完了メッセージ -->
     <div v-if="done" class="text-center py-8">
@@ -117,7 +118,7 @@ function resetVotes() {
         @click="vote(entry.id, pair[1 - index].id)"
       >
         <div class="text-xl font-bold text-gray-800">{{ entry?.name }}</div>
-        <div class="text-sm text-gray-600 mt-2">← タップして投票</div>
+        <div class="text-sm text-gray-600 mt-2">行きたいほうをタップしてね！</div>
       </div>
     </div>
 
@@ -128,6 +129,7 @@ function resetVotes() {
         class="px-4 py-2 bg-yellow-200 rounded hover:bg-yellow-300"
       >🔄 テスト用リセット</button>
     </div>
+
 
     <!-- シェアリンク -->
     <div v-if="lastKey" class="mt-8 text-center">

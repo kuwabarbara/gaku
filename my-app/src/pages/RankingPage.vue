@@ -77,6 +77,7 @@ async function submitComment() {
   <div class="max-w-4xl mx-auto p-6">
     <h1 class="text-3xl font-bold mb-6 text-center">🎓 学歴ピラミッド</h1>
 
+
     <!-- 各行ごとに1,2,3…列を設定して中央寄せ -->
     <div class="space-y-6 mb-10">
       <div
@@ -100,13 +101,16 @@ async function submitComment() {
       </div>
     </div>
 
+    <br>
+    <br>
+    あくまで主観の、エンタメとして楽しんでください。
     <!-- コメント掲示板 -->
     <h2 class="text-xl font-bold mb-2">💬 コメント掲示板</h2>
     <textarea
       v-model="newComment"
       class="w-full p-2 border rounded resize-none mb-2"
       rows="3"
-      placeholder="学歴について自由にコメントしてね"
+      placeholder="学歴について自由にコメントしてね。（誹謗中傷などは控えてください。）"
     ></textarea>
     <button
       :disabled="isSubmitting"
