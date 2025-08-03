@@ -81,7 +81,8 @@ async function submitComment() {
 
 <template>
   <div class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6 text-center">🎓 学歴ピラミッド</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">🎓 GakutteTV</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">  学歴ピラミッド</h1>
 
     <!-- 各行ごとに1,2,3…列を設定して中央寄せ -->
     <div class="space-y-6 mb-10">

@@ -96,8 +96,9 @@ function resetVotes() {
 
 <template>
   <div class="p-4 max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">🎓 GakutteTV</h1>
     <h1 class="text-3xl font-bold text-center mb-6">大学格付けバトル🔥</h1>
-    <h1 class="text-3xl font-bold text-center mb-6">どっちも行けるならどっち行きたい？</h1>
+    <h1 class="text-3xl font-bold text-center mb-6">両方行けるならどっち行きたい？</h1>
 
     <!-- 完了メッセージ -->
     <div v-if="done" class="text-center py-8">
