@@ -1,14 +1,10 @@
-<!-- src/pages/VotePage.vue -->
 <script setup>
 import { ref, onMounted } from 'vue'
 import Cookies from 'js-cookie'
-import { db } from '../firebase'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { entries } from '../data/entries'
 
 const IS_DEV = import.meta.env.DEV
 const PREFIX = 'voted_'
-
 const pair = ref([null, null])
 const lastPair = ref([null, null])
 const combos = ref([])
@@ -57,12 +53,17 @@ async function vote(winner, loser) {
     alert('もうこのカードは投票済みです')
     return
   }
+
   try {
-    await addDoc(collection(db, 'votes'), {
-      winnerId: winner,
-      loserId: loser,
-      timestamp: serverTimestamp()
+    // Cloud Functions のエンドポイントにPOST送信
+    const res = await fetch('https://submitvote-okwtwpzybq-uc.a.run.app', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ winnerId: winner, loserId: loser }),
     })
+
+    if (!res.ok) throw new Error(await res.text())
+
     Cookies.set(key, 'true', { expires: 365 })
     lastPair.value = [...pair.value]
     lastKey.value = key
@@ -93,6 +94,8 @@ function resetVotes() {
   alert('🔄 テスト用：リセットしました')
 }
 </script>
+
+
 
 <template>
   <div class="p-4 max-w-4xl mx-auto">
